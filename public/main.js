@@ -1,55 +1,33 @@
-let player, positions;
-let multiplayer = new MMOC();
-multiplayer.setOther("color", "#88aa44");
-
-function update(jscolor) {
-    multiplayer.setOther("color", "#" + jscolor);
-}
+let client;
 
 function setup() {
-    multiplayer.init();
-
-    multiplayer.changeX(Math.floor(windowWidth/2));
-    multiplayer.changeY(Math.floor(windowHeight/2));
-
-    document.getElementById("modal").style.display = "block";
-    document.getElementById("observer").onclick = function () {
-        document.getElementById("modal").style.display = "none";
-        player = false;
-    };
-    document.getElementById("player").onclick = function () {
-        document.getElementById("modal").style.display = "none";
-        player = true;
-    };
-
-    let canvas = createCanvas(windowWidth, windowHeight);
-    canvas.style("display", "block");
+    client = new Client();
+    createCanvas(500, 500).position((windowWidth-width)/2, 30);
 }
 
 function draw() {
-    background(255);
-    if (player) {
-        multiplayer.sendPlayerData();
-        if (keyIsDown(87) || keyIsDown(38)) {
-            multiplayer.changeY(-1);
-        }
-        if (keyIsDown(83) || keyIsDown(40)) {
-            multiplayer.changeY(1);
-        }
-        if (keyIsDown(65) || keyIsDown(37)) {
-            multiplayer.changeX(-1);
-        }
-        if (keyIsDown(68) || keyIsDown(39)) {
-            multiplayer.changeX(1);
-        }
-    }
+    background(0);
+    client.sendPlayerData();
 
-    let players = multiplayer.getPlayers();
-    for (let player in players) {
-        let color = players[player]["other"]["color"];
-        fill(color);
-        let x = players[player]["x"];
-        let y = players[player]["y"];
-        ellipse(x, y, 20);
+    let players = client.getPlayers();
+    for (let b in players) {
+        Ball(players[b].location.x, players[b].location.y, players[b].color);
+    }
+}
+
+function keyPressed() {
+    switch (keyCode) {
+        case LEFT_ARROW:
+            client.x -= 5;
+            break;
+        case RIGHT_ARROW:
+            client.x += 5;
+            break;
+        case UP_ARROW:
+            client.y -= 5;
+            break;
+        case DOWN_ARROW:
+            client.y += 5;
+            break;
     }
 }

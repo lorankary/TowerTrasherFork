@@ -1,22 +1,15 @@
 {
-  "name": "js-server-and-client",
+  "name": "nodejs-websockets",
   "version": "1.0.0",
-  "description": "Alex K's JS version of express plus express-ws",
-  "main": "index.js",
-  "engines": {
-    "node": "10.x"
-  },
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
+  "author": "Alex Krantz",
+  "license": "MIT",
   "dependencies": {
-    "express-ws": "^4.0.0",
-    "express": "^4.15.2"
-  },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "license": "MIT"
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0"
+  }
 }

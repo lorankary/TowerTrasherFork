@@ -1,27 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title>MMO Server</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+        <title>Server V2</title>
+        <meta charset="utf-8"/>
     </head>
     <body>
-        <script src="mmoc.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js" integrity="sha256-8IAwtdm0tRSYpMA1G5K1jpeHZq1N02yrdpoBteVVuMc=" crossorigin="anonymous"></script>
+        <script src="client.js"></script>
+        <script src="ball.js"></script>
         <script src="main.js"></script>
-
-        <div id="modal">
-            <div id="modal-content">
-                <div id="modal-head">
-                    <h2>Select Type</h2>
-                </div>
-                <button id="observer">Observer</button>
-                <button id="player">Player</button>
-                <br>
-                <label for="color">Ball Color: </label><input id="color" class="jscolor" onchange="update(this.jscolor)" value="ffffff">
-            </div>
-        </div>
     </body>
 </html>
