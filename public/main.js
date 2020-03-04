@@ -3,6 +3,7 @@ let client;
 function setup() {
     client = new Client();
     createCanvas(500, 500).position((windowWidth-width)/2, 30);
+    client.sendGreeting();
 }
 
 function draw() {

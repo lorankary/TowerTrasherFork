@@ -56,4 +56,10 @@ class Client {
         if (this.ws.readyState !== 1) return {};
         return this.data;
     }
+
+    sendGreeting() {
+      var message = {type:"greeting", text:"hello server"};
+      if (this.ws.readyState !== 1) return;
+      console.log(JSON.stringify(message));
+    }
 }
