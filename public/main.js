@@ -3,6 +3,22 @@ let client;
 function setup() {
     client = new Client();
     createCanvas(500, 500).position((windowWidth-width)/2, 30);
+
+    // Use an XMLHttpRequest instance to get a particular json file
+    var xhr = new XMLHttpRequest();
+    // "load" event handler
+    xhr.addEventListener("load", function() {
+        let resp = xhr.response;
+        for(let i = 0; i < resp.bodies.length; i++) {
+            // create a matter.js body and add to the matter.js world
+            console.log(resp.bodies[i]);
+        }
+    })
+    xhr.open("GET",
+        location.protocol + "//" + document.domain + ":" + location.port
+        + "/" + "bodies.json");
+    xhr.responseType = "json";  // xhr.response will be parsed from json
+    xhr.send();                 // initiate the request
 }
 
 function draw() {
