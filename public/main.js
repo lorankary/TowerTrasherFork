@@ -8,10 +8,14 @@ function setup() {
     var xhr = new XMLHttpRequest();
     // "load" event handler
     xhr.addEventListener("load", function() {
-        let resp = xhr.response;
-        for(let i = 0; i < resp.bodies.length; i++) {
-            // create a matter.js body and add to the matter.js world
-            console.log(resp.bodies[i]);
+        let resp = xhr.response;    // an object parsed from json
+        if(resp){
+            // show json in document body
+            document.body.appendChild(document.createTextNode(JSON.stringify(resp)));
+            for(let i = 0; i < resp.bodies.length; i++) {
+                // create a matter.js body and add to the matter.js world
+                console.log(resp.bodies[i]);
+            }
         }
     })
     xhr.open("GET",
