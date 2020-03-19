@@ -20,9 +20,8 @@ Example.slingshot = function() {
     var render = Render.create({
         element: document.body,
         engine: engine,
+        canvas:canvas,
         options: {
-            width: 800,
-            height: 600,
             showAngleIndicator: true
         }
     });
