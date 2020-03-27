@@ -56,29 +56,60 @@ Example.slingshot = function() {
     World.add(engine.world, [ground, pyramid, ground2, pyramid2, rock, elastic]);
 
     Events.on(engine, 'afterUpdate', function() {
-        if (mouseConstraint.mouse.button === -1 && (rock.position.x > 190 || rock.position.y < 430)) {
-            rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
-            World.add(engine.world, rock);
-            elastic.bodyB = rock;
-        }
+        // if (mouseConstraint.mouse.button === -1 && (rock.position.x > 190 || rock.position.y < 430)) {
+        //     rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
+        //     World.add(engine.world, rock);
+        //     elastic.bodyB = rock;
+        // }
     });
 
     // add mouse control
-    var mouse = Mouse.create(render.canvas),
-        mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: {
-                    visible: false
-                }
+    // var mouse = Mouse.create(render.canvas),
+    //     mouseConstraint = MouseConstraint.create(engine, {
+    //         mouse: mouse,
+    //         constraint: {
+    //             stiffness: 0.2,
+    //             render: {
+    //                 visible: false
+    //             }
+    //         }
+    //     });
+    //
+    // World.add(world, mouseConstraint);
+    //
+    // // keep the mouse in sync with rendering
+    // render.mouse = mouse;
+
+    // custom mouse Constraint
+    var mouseconstraint = null;
+    canvas.addEventListener("mousedown", function(evt){
+        // did the mouse down occur within the bounds of the rock?
+        if(evt.clientX > rock.bounds.min.x && evt.clientX < rock.bounds.max.x
+            && evt.clientY > rock.bounds.min.y && evt.clientY < rock.bounds.max.y) {
+            mouseconstraint = Constraint.create({
+                pointA: {x:evt.clientX, y:evt.clientY}, // anchor
+                BodyB: rock,
+                pointB: {x:evt.clientX - rock.position.x, y:evt.clientY - rock.position.y},
+                length:0,
+                stiffness:1
+                })
+            World.addConstraint(engine.world, mouseconstraint);
+            Matter.Sleeping.set(rock,false);
             }
-        });
+    });
+    canvas.addEventListener("mousemove", function(evt){
+        if(mouseconstraint){
+            mouseconstraint.pointA = {x:evt.clientX, y:evt.clientY} // anchor
+            console.log(mouseconstraint.pointA.x, mouseconstraint.pointA.y);
+        }
+    });
+    canvas.addEventListener("mouseup", function(evt){
+        if(mouseconstraint){
+            World.remove(engine.world, mouseconstraint)
+            mouseconstraint = null;
+        }
+    });
 
-    World.add(world, mouseConstraint);
-
-    // keep the mouse in sync with rendering
-    render.mouse = mouse;
 
     // fit the render viewport to the scene
     Render.lookAt(render, {
