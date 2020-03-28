@@ -60,6 +60,11 @@ Example.slingshot = function() {
         //     rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
         //     World.add(engine.world, rock);
         //     elastic.bodyB = rock;
+        if(!mouseconstraint && (rock.position.x > 190 || rock.position.y < 430)) {
+            rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
+            World.add(engine.world, rock);
+            elastic.bodyB = rock;
+        }
         // }
     });
 
@@ -87,20 +92,20 @@ Example.slingshot = function() {
         if(evt.clientX > rock.bounds.min.x && evt.clientX < rock.bounds.max.x
             && evt.clientY > rock.bounds.min.y && evt.clientY < rock.bounds.max.y) {
             mouseconstraint = Constraint.create({
-                pointA: {x:evt.clientX, y:evt.clientY}, // anchor
-                BodyB: rock,
-                pointB: {x:evt.clientX - rock.position.x, y:evt.clientY - rock.position.y},
+                pointA: {x:evt.offsetX, y:evt.offsetY}, // anchor
+                bodyB: rock,
+                pointB: {x:evt.offsetX - rock.position.x, y:evt.offsetY - rock.position.y},
                 length:0,
-                stiffness:1
+                stiffness:0.2
                 })
             World.addConstraint(engine.world, mouseconstraint);
             Matter.Sleeping.set(rock,false);
+
             }
     });
     canvas.addEventListener("mousemove", function(evt){
         if(mouseconstraint){
-            mouseconstraint.pointA = {x:evt.clientX, y:evt.clientY} // anchor
-            console.log(mouseconstraint.pointA.x, mouseconstraint.pointA.y);
+            mouseconstraint.pointA = {x:evt.offsetX, y:evt.offsetY} // anchor
         }
     });
     canvas.addEventListener("mouseup", function(evt){
