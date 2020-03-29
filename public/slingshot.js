@@ -88,19 +88,18 @@ Example.slingshot = function() {
     // custom mouse Constraint
     var mouseconstraint = null;
     canvas.addEventListener("mousedown", function(evt){
-        // did the mouse down occur within the bounds of the rock?
-        if(evt.clientX > rock.bounds.min.x && evt.clientX < rock.bounds.max.x
-            && evt.clientY > rock.bounds.min.y && evt.clientY < rock.bounds.max.y) {
+        // did the mouse down occur within the vertices of the rock?
+        let mousePosition = {x: evt.offsetX, y: evt.offsetY };
+        if (Matter.Vertices.contains(rock.vertices, mousePosition))
+            {
             mouseconstraint = Constraint.create({
-                pointA: {x:evt.offsetX, y:evt.offsetY}, // anchor
+                pointA: mousePosition, // anchor
                 bodyB: rock,
-                pointB: {x:evt.offsetX - rock.position.x, y:evt.offsetY - rock.position.y},
+                pointB: {x:mousePosition.x - rock.position.x, y:mousePosition.y - rock.position.y},
                 length:0,
-                stiffness:0.2
+                stiffness:0.6
                 })
             World.addConstraint(engine.world, mouseconstraint);
-            Matter.Sleeping.set(rock,false);
-
             }
     });
     canvas.addEventListener("mousemove", function(evt){
