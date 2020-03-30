@@ -98,6 +98,12 @@ Example.slingshot = function() {
         // Did the mousedown hit the rock?
         if (Matter.Vertices.contains(rock.vertices, mousePosition))
             {
+            // If a mouseup event occurred when the mouse location was outside the
+            // canvas, that event would be missed and there could be a stale
+            // mouse constraint left hanging around.
+            if(mouseconstraint)
+                World.remove(engine.world, mouseconstraint);  // Also send message to server
+
             mouseconstraint = Constraint.create({
                 pointA: mousePosition, // anchor
                 bodyB: rock,
